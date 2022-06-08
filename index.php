@@ -5,13 +5,13 @@
             <h1 class="text-center">Home</h1>
         </div>
     </div>
-
     <div class="row">
         <div class="col-12">
-            <h2> In progress Projects :</h2> 
+            <h2> In progress Projects :</h2>
         </div>
+        <?php echo Session::get('message');
+        Session::unsetKey('message');
+        ?>
     </div>
 </div>
 <?php require_once('./inc/footer.php'); ?>
-
-

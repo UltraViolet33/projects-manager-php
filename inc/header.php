@@ -1,10 +1,9 @@
-
-<?php require_once('./core/classes/Project.class.php');
-
+<?php
+require_once('./core/connection/Session.php');
+Session::init();
+require_once('./core/classes/Project.class.php');
 $project = new Project();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
