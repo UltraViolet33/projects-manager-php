@@ -27,6 +27,12 @@ class Project
         return true;
     }
 
+    public function getAllProjects()
+    {
+        $sql = "SELECT * FROM projects ORDER BY created_at DESC";
+        return $this->con->read($sql);
+    }
+
 
     public function insertProject(): string
     {

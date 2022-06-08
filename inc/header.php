@@ -26,7 +26,7 @@ $project = new Project();
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">All Projects</a>
+                        <a class="nav-link" href="./allProjects.php">All Projects</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="./createProject.php">Add Project</a>
