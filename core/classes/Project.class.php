@@ -110,6 +110,7 @@ class Project
         }
 
         $values = array(
+            "id_project" => $id,
             "name" => $_POST['name'],
             "description" => $_POST['description'],
             "created_at" => $created_at,
@@ -117,7 +118,7 @@ class Project
             "is_done" => $isDone,
         );
 
-        $sql = "UPDATE projects SET name = :name, description = :description, created_at=:created_at, deadline=:deadline, is_done=:is_done";
+        $sql = "UPDATE projects SET name = :name, description = :description, created_at=:created_at, deadline=:deadline, is_done=:is_done WHERE id_project=:id_project";
 
         if ($this->con->write($sql, $values)) {
             Session::set("message", "Your project have been updated");

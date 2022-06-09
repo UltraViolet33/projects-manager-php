@@ -1,4 +1,6 @@
-<?php require_once('./inc/header.php');
+<?php 
+$title = "Create a Project";
+require_once('./inc/header.php');
 
 if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject']))
 {

@@ -1,4 +1,6 @@
-<?php require_once('./inc/header.php');
+<?php 
+$title = "Projects List";
+require_once('./inc/header.php');
 $allProjects = $project->getAllProjects();
 ?>
 <div class="container my-3">
@@ -21,7 +23,6 @@ $allProjects = $project->getAllProjects();
                     </tr>
                 </thead>
                 <tbody>
-
                     <?php foreach ($allProjects as $project) : ?>
                         <?php $deadline = date('d/m/y', strtotime($project->deadline));
                         $date = date('d/m/y', strtotime($project->created_at));

@@ -1,4 +1,6 @@
-<?php require_once('./inc/header.php');
+<?php 
+$title = "Details Projects";
+require_once('./inc/header.php');
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
