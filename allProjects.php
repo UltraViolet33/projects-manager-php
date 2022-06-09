@@ -30,12 +30,12 @@ $allProjects = $project->getAllProjects();
                             $date = date('d/m/y', strtotime($project->created_at));
                             $status = $project->is_done ? "Done" : "Not done yet";
                             ?>
-                            <?php if ($project->remains_days <= 7 && $project->remains_days >= 1) : ?>
+                            <?php if ($project->is_done) : ?>
+                                <tr class="bg-success">
+                                <?php elseif ($project->remains_days <= 7 && $project->remains_days >= 1) : ?>
                                 <tr class="bg-warning">
                                 <?php elseif ($project->remains_days <= 0) : ?>
                                 <tr class="bg-danger">
-                                <?php elseif ($project->is_done) : ?>
-                                <tr class="bg-success">
                                 <?php else : ?>
                                 <tr>
                                 <?php endif; ?>

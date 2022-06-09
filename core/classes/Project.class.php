@@ -81,35 +81,50 @@ class Project
         return $this->con->read($sql);
     }
 
+    public function getProjectsInProgress()
+    {
+        $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects WHERE is_done=0 ORDER BY remains_days ASC";
+        return $this->con->read($sql);
+    }
+
+
+
     public function updateProject($id)
     {
         $result = "";
         $dataPost = ["name", "description", "created", "deadline"];
 
-        if (!$this->validatePost($dataPost)) {
-            $result = "Please, fill all inputs";
-        }
+        // Check inputs
+        $checkInputs = $this->validator->validatePost($dataPost);
+        if (is_string($checkInputs)) return $checkInputs;
 
-        if (strlen($_POST['name']) < 1) {
-            $result = "Name must be longer than 1 character";
-        }
+        // Check length
+        $checkName = $this->validator->checkLength("name", $_POST['name'], 1);
+        if (is_string($checkName))  return $checkName;
 
-        if (strlen($_POST['description']) < 1) {
-            $result = "Description must be longer than 1 character";
-        }
+        $checkDescription = $this->validator->checkLength("Description", $_POST['description'], 1);
+        if (is_string($checkDescription)) return $checkDescription;
 
-        $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
+        $checkDeadline = $this->validator->checkDate("Deadline", $_POST['deadline']);
+        if (is_string($checkDeadline)) return $checkDeadline;
 
-        if (!preg_match($date_regex, $_POST['created'])) {
-            $result = "The created_at input must be a date with the format dd-mm-yyyy";
-        }
+        $checkCreated = $this->validator->checkDate("Date begining", $_POST['created']);
+        if (is_string($checkCreated)) return $checkCreated;
 
-        if (!preg_match($date_regex, $_POST['deadline'])) {
-            $result = "The dealine input must be a date with the format dd-mm-yyyy";
-        }
+        // Check if the dealine date is past
+        $currentDate = strtotime(date('Y-m-d'));
+        $deadline = strtotime($_POST['deadline']);
 
-        $deadline = date("Y-m-d", strtotime($_POST['deadline']));
-        $created_at = date("Y-m-d", strtotime($_POST['created']));
+        if ($deadline < $currentDate)  return $result = "The deadline must not be in the past";
+
+        $deadline = date("Y-m-d", $deadline);
+        $created_at = date("Y-m-d", $currentDate);
+
+        // Check the beginning date
+
+        $checkCreatedAt = $this->validator->checkdate("Date begining", $_POST['created']);
+        if (is_string($checkCreatedAt)) return $checkCreatedAt;
+        $created_at = date("Y-m-d", strtotime($_POST['deadline']));
 
         $isDone = 0;
         if (isset($_POST['isDone']) && $_POST['isDone'] == "true") {
