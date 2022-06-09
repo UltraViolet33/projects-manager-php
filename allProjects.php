@@ -17,6 +17,7 @@ $allProjects = $project->getAllProjects();
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Remains Days</th>
                             <th scope="col">Start</th>
                             <th scope="col">Dealine</th>
                             <th scope="col">Status</th>
@@ -29,15 +30,24 @@ $allProjects = $project->getAllProjects();
                             $date = date('d/m/y', strtotime($project->created_at));
                             $status = $project->is_done ? "Done" : "Not done yet";
                             ?>
-                            <tr>
+                            <?php if ($project->remains_days <= 7 && $project->remains_days >= 1) : ?>
+                                <tr class="bg-warning">
+                                <?php elseif ($project->remains_days <= 0) : ?>
+                                <tr class="bg-danger">
+                                <?php elseif ($project->is_done) : ?>
+                                <tr class="bg-success">
+                                <?php else : ?>
+                                <tr>
+                                <?php endif; ?>
                                 <th scope="row"><?= $project->id_project ?></th>
                                 <td><?= $project->name ?></td>
+                                <td><?= $project->remains_days ?></td>
                                 <td><?= $date ?></td>
                                 <td><?= $deadline ?></td>
                                 <td><?= $status ?></td>
                                 <td><a href="./details.php?id=<?= $project->id_project ?>" class="btn btn-primary">Détails</a></td>
-                            </tr>
-                        <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else : ?>

@@ -75,24 +75,9 @@ class Project
         return $result;
     }
 
-    // private function validatePost(array $dataPost): bool
-    // {
-    //     foreach ($dataPost as $data) {
-    //         if (!isset($_POST[$data])) {
-    //             return false;
-    //         }
-
-    //         if (empty($_POST[$data])) {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
     public function getAllProjects()
     {
-        $sql = "SELECT * FROM projects ORDER BY created_at DESC";
+        $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects ORDER BY remains_days ASC";
         return $this->con->read($sql);
     }
 
@@ -153,7 +138,7 @@ class Project
 
     public function getSingleProject(int $id)
     {
-        $sql = "SELECT * FROM projects WHERE id_project = :id_project";
+        $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects WHERE id_project = :id_project";
         return $this->con->read($sql, ['id_project' => $id], true);
     }
 

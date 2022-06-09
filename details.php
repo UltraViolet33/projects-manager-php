@@ -1,4 +1,4 @@
-<?php 
+<?php
 $title = "Details Projects";
 require_once('./inc/header.php');
 
@@ -27,6 +27,7 @@ $deadline = date('d/m/y', strtotime($singleProject->deadline));
         <div class="col-12">
             <p>Name : <?= $singleProject->name ?> </p>
             <p>Description : <?= $singleProject->description ?> </p>
+            <p>Remaining days : <?= $singleProject->remains_days ?> </p>
             <p>Status : <?= $singleProject->is_done ? "Done" : "Not done yet" ?></p>
             <p>Date begining : <?= $singleProject->created_at ?> </p>
             <p>Deadline : <?= $singleProject->deadline ?> </p>
