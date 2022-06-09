@@ -17,6 +17,7 @@ $allProjects = $project->getAllProjects();
                         <th scope="col">Start</th>
                         <th scope="col">Dealine</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Détails</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@ $allProjects = $project->getAllProjects();
                             <td><?= $date ?></td>
                             <td><?= $deadline ?></td>
                             <td><?= $status ?></td>
+                            <td><a href="./details.php?id=<?= $project->id_project?>" class="btn btn-primary">Détails</a></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

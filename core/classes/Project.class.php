@@ -75,4 +75,10 @@ class Project
         $result = "An error occured, please try again or go away";
         return $result;
     }
+
+    public function getSingleProject(int $id)
+    {
+        $sql = "SELECT * FROM projects WHERE id_project = :id_project";
+        return $this->con->read($sql, ['id_project' => $id], true);
+    }
 }
