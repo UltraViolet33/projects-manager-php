@@ -1,10 +1,8 @@
-<?php 
+<?php
 $title = "Create a Project";
 require_once('./inc/header.php');
 
-if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject']))
-{
-    var_dump($_POST);
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject'])) {
     $createProject = $project->insertProject();
 }
 ?>
@@ -19,24 +17,28 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject']))
             <form method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name project :</label>
-                    <input type="text" class="form-control" name="name">
+                    <input type="text" class="form-control" name="name" value="<?= isset($_POST['name']) ? htmlspecialChars($_POST['name']) : null ?>">
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description : </label>
                     <div class="form-floating">
-                        <textarea style="height:100px;resize:none" class="form-control" name="description"></textarea>
+                        <textarea style="height:100px;resize:none" class="form-control" name="description"><?= isset($_POST['description']) ? htmlspecialChars($_POST['description']) : null ?></textarea>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="deadline" class="form-label">Deadline :</label>
-                    <input type="date" class="form-control" name="deadline">
+                    <label for="created" class="form-label">Date begining :</label>
+                    <input type="date" class="form-control" name="created" value="<?= isset($_POST['created']) ? htmlspecialChars($_POST['created']) : null ?>">
                 </div>
-                <input type="submit" name="createProject" value="Submit" class="btn btn-primary"/>
+                <div class="mb-3">
+                    <label for="deadline" class="form-label">Deadline :</label>
+                    <input type="date" class="form-control" name="deadline" value="<?= isset($_POST['deadline']) ? htmlspecialChars($_POST['deadline']) : null ?>">
+                </div>
+                <input type="submit" name="createProject" value="Submit" class="btn btn-primary" />
             </form>
             <div class="bg-danger">
-                <?php if(isset($createProject)): ?>
+                <?php if (isset($createProject)) : ?>
                     <?= $createProject ?>
-                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
