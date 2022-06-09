@@ -6,6 +6,11 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $id = (int) $_GET['id'];
 $singleProject = $project->getSingleProject($id);
+if (!$singleProject) {
+    header("Location: allProjects.php");
+    die;
+}
+
 $date = date('d/m/y', strtotime($singleProject->created_at));
 $deadline = date('d/m/y', strtotime($singleProject->deadline));
 ?>
@@ -22,6 +27,8 @@ $deadline = date('d/m/y', strtotime($singleProject->deadline));
             <p>Status : <?= $singleProject->is_done ? "Done" : "Not done yet" ?></p>
             <p>Date begining : <?= $singleProject->created_at ?> </p>
             <p>Deadline : <?= $singleProject->deadline ?> </p>
+            <a href="./edit.php?id=<?= $singleProject->id_project ?>" class="btn btn-primary">Edit</a>
+            <a href="./delete.php?id=<?= $singleProject->id_project ?>" class="btn btn-danger">Delete</a>
         </div>
     </div>
 </div>

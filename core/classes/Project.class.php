@@ -81,4 +81,10 @@ class Project
         $sql = "SELECT * FROM projects WHERE id_project = :id_project";
         return $this->con->read($sql, ['id_project' => $id], true);
     }
+
+    public function deleteProject($id)
+    {
+        $sql = "DELETE FROM projects WHERE id_project = :id_project";
+        $result = $this->con->write($sql, ['id_project' => $id]);
+    }
 }
