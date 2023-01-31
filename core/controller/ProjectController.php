@@ -13,33 +13,48 @@ class ProjectController
         $this->validator = new FormValidator();
     }
 
-    public function createProject()
+    public function createProject(): bool
     {
+        if (!$this->validateDataForm()) {
+            return false;
+        }
+
+        // insert with Project class
     }
 
 
-    private function validateDataForm(array $data): bool
+    private function validateDataForm(): bool
     {
         $dataForm = ["name", "description", "created_at", "deadline"];
+
         if (!$this->validator->validatePostData($dataForm)) {
+            // set error msg
             return false;
         }
 
         if (!$this->validateLengthData()) {
+            // set error msg
             return false;
         }
 
-        if(!$this->checkIfDeadlineDateIsPast())
-        {
+        if (!$this->checkDatesData()) {
+            // set error msg
+            return false;
+        }
+
+        if (!$this->checkIfDeadlineDateIsPast()) {
+            // set error msg
             return false;
         }
 
         return true;
-
-        // check if the data are in good format
-        // check the dates
     }
 
+    /**
+     * validateLengthData
+     *
+     * @return bool
+     */
     private function validateLengthData(): bool
     {
         $data = ["name", "description"];
@@ -54,9 +69,15 @@ class ProjectController
     }
 
 
+    /**
+     * checkDatesData
+     *
+     * @return bool
+     */
     private function checkDatesData(): bool
     {
         $data = ["created_at", "deadline"];
+
         foreach ($data as $date) {
             if (!$this->validator->checkDateFormat($date)) {
                 return false;
@@ -66,16 +87,17 @@ class ProjectController
         return true;
     }
 
+    
+    /**
+     * checkIfDeadlineDateIsPast
+     *
+     * @return bool
+     */
     private function checkIfDeadlineDateIsPast(): bool
     {
         $currentDate = strtotime(date('Y-m-d'));
         $deadline = strtotime($_POST['deadline']);
 
-        if ($deadline < $currentDate)
-        {
-            return false;
-        }
-
-        return true;
+        return $deadline > $currentDate;
     }
 }

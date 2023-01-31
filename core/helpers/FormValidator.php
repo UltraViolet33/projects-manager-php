@@ -18,11 +18,12 @@ class FormValidator
     }
 
 
+    
     /**
-     * Validate post data
+     * validatePostData
      *
-     * @param array $dataPost
-     * @return string|bool
+     * @param  array $dataPost
+     * @return bool
      */
     public function validatePostData(array $dataPost): bool
     {
