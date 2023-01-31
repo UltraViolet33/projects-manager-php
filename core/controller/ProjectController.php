@@ -1,6 +1,7 @@
 <?php
 
 require_once './core/helpers/FormValidator.php';
+require_once "./core/connection/Session.php";
 
 
 class ProjectController
@@ -13,11 +14,14 @@ class ProjectController
         $this->validator = new FormValidator();
     }
 
+
     public function createProject(): bool
     {
         if (!$this->validateDataForm()) {
             return false;
         }
+
+        return true;
 
         // insert with Project class
     }
@@ -28,27 +32,28 @@ class ProjectController
         $dataForm = ["name", "description", "created_at", "deadline"];
 
         if (!$this->validator->validatePostData($dataForm)) {
-            // set error msg
+            Session::set("error", "Please filsl all inputs");
             return false;
         }
 
         if (!$this->validateLengthData()) {
-            // set error msg
+            Session::set("error", "Name and description project must be less than 50 characters");
             return false;
         }
 
-        if (!$this->checkDatesData()) {
-            // set error msg
+        if (!$this->checkDatesFormat()) {
+            Session::set("error", "Date must be in format dd/mm/yyyy");
             return false;
         }
 
         if (!$this->checkIfDeadlineDateIsPast()) {
-            // set error msg
+            Session::set("error", "Deadline must be in the past");
             return false;
         }
 
         return true;
     }
+
 
     /**
      * validateLengthData
@@ -70,16 +75,16 @@ class ProjectController
 
 
     /**
-     * checkDatesData
+     * checkDatesFormat
      *
      * @return bool
      */
-    private function checkDatesData(): bool
+    private function checkDatesFormat(): bool
     {
         $data = ["created_at", "deadline"];
 
         foreach ($data as $date) {
-            if (!$this->validator->checkDateFormat($date)) {
+            if (!$this->validator->checkDateFormat($_POST[$date])) {
                 return false;
             }
         }
@@ -87,7 +92,7 @@ class ProjectController
         return true;
     }
 
-    
+
     /**
      * checkIfDeadlineDateIsPast
      *

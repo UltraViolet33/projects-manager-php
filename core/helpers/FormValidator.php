@@ -12,7 +12,7 @@ class FormValidator
      * @param  int $maxLength
      * @return bool
      */
-    public function checkLength(string $value, int $minLength, int $maxLength): bool
+    public function checkLength( $value,  $minLength,  $maxLength): bool
     {
         return strlen($value) >= $minLength && strlen($value) <= $maxLength;
     }

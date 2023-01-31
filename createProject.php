@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject'])) {
                 </div>
                 <div class="mb-3">
                     <label for="created" class="form-label">Date begining :</label>
-                    <input type="date" class="form-control" name="created" value="<?= isset($_POST['created']) ? htmlspecialChars($_POST['created']) : null ?>">
+                    <input type="date" class="form-control" name="created_at" value="<?= isset($_POST['created_at']) ? htmlspecialChars($_POST['created_at']) : null ?>">
                 </div>
                 <div class="mb-3">
                     <label for="deadline" class="form-label">Deadline :</label>
@@ -38,9 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject'])) {
                 <input type="submit" name="createProject" value="Submit" class="btn btn-primary" />
             </form>
             <div class="bg-danger">
-                <?php if (isset($createProject)) : ?>
-                    <?= $createProject ?>
-                <?php endif; ?>
+                <?php
+                echo Session::get("error");
+                Session::unsetKey("error");
+                ?>
             </div>
         </div>
     </div>
