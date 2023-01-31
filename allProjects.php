@@ -1,7 +1,7 @@
 <?php
 $title = "Projects List";
-require_once('./inc/header.php');
-$allProjects = $project->getAllProjects();
+require_once "./inc/header.php";
+$allProjects = $projectController->getAllProjects();
 ?>
 <div class="container my-3">
     <div class="row">
@@ -19,32 +19,25 @@ $allProjects = $project->getAllProjects();
                             <th scope="col">Name</th>
                             <th scope="col">Remains Days</th>
                             <th scope="col">Start</th>
-                            <th scope="col">Dealine</th>
+                            <th scope="col">Deadline</th>
                             <th scope="col">Status</th>
                             <th scope="col">Détails</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($allProjects as $project) : ?>
-                            <?php $deadline = date('d/m/y', strtotime($project->deadline));
-                            $date = date('d/m/y', strtotime($project->created_at));
+                            <?php
+                        
                             $status = $project->is_done ? "Done" : "Not done yet";
                             ?>
-                            <?php if ($project->is_done) : ?>
-                                <tr class="bg-success">
-                                <?php elseif ($project->remains_days <= 7 && $project->remains_days >= 1) : ?>
-                                <tr class="bg-warning">
-                                <?php elseif ($project->remains_days <= 0) : ?>
-                                <tr class="bg-danger">
-                                <?php else : ?>
-                                <tr>
-                                <?php endif; ?>
+                            <tr>
+                          
                                 <th scope="row"><?= $project->id_project ?></th>
                                 <td><?= $project->name ?></td>
                                 <td><?= $project->remains_days ?></td>
-                                <td><?= $date ?></td>
-                                <td><?= $deadline ?></td>
-                                <td><?= $status ?></td>
+                                <td><?= $project->created_at ?></td>
+                                <td><?= $project->deadline ?></td>
+                                <td><?= $project->is_done ? "Done" : "Not done yet"; ?></td>
                                 <td><a href="./details.php?id=<?= $project->id_project ?>" class="btn btn-primary">Détails</a></td>
                                 </tr>
                             <?php endforeach; ?>

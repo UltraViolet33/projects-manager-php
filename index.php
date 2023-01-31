@@ -7,8 +7,8 @@ $projectsInProgress = $projectController->getProjectsInProgress();
 <div class="container my-3">
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center">All Projects</h1>
-            <p><?= Session::get("Message") ?></p>
+            <h1 class="text-center">Projects in progress</h1>
+            <p><?= Session::get("message") ?></p>
         </div>
     </div>
     <div class="row">

@@ -8,7 +8,7 @@ class Project
 
     public function __construct()
     {
-        $this->con = Database::getInstance();
+        $this->con = new Database();
     }
 
         
@@ -40,21 +40,16 @@ class Project
         return $this->con->read($query);
     }
 
-
-
-
-    private function validateDataForm(array $data)
+    
+    /**
+     * selectAllProjects
+     *
+     * @return array
+     */
+    public function selectAllProjects(): array
     {
-        // check if all data are here
-        // check if the data are in good format
-        // check the dates
-
-    }
-
-    public function getAllProjects()
-    {
-        $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects ORDER BY remains_days ASC";
-        return $this->con->read($sql);
+        $query = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects ORDER BY remains_days ASC";
+        return $this->con->read($query);
     }
 
 

@@ -15,7 +15,7 @@ class ProjectController
         $this->projectModel = new Project();
     }
 
-    
+
     /**
      * projectsInProgress
      *
@@ -27,6 +27,17 @@ class ProjectController
     }
 
     
+    /**
+     * getAllProjects
+     *
+     * @return array
+     */
+    public function getAllProjects(): array
+    {
+        return $this->projectModel->selectAllProjects();
+    }
+
+
     /**
      * createProject
      *
