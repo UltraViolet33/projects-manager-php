@@ -1,13 +1,14 @@
 <?php
 
-require_once('core/connection/Database.php');
-require_once('core/helpers/FormValidator.php');
+require_once './core/connection/Database.php';
+require_once './core/helpers/FormValidator.php';
 
 
 class Project
 {
     private $con = null;
     private $validator = null;
+
 
     public function __construct()
     {
@@ -73,6 +74,17 @@ class Project
 
         $result = "An error occured, please try again or go away";
         return $result;
+    }
+
+
+
+
+    private function validateDataForm(array $data)
+    {
+        // check if all data are here
+        // check if the data are in good format
+        // check the dates
+
     }
 
     public function getAllProjects()

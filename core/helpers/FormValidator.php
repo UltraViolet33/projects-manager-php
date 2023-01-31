@@ -3,21 +3,18 @@
 class FormValidator
 {
 
+    
     /**
-     * Check the length
+     * checkLength
      *
-     * @param string $name
-     * @param string $value
-     * @param int $length
-     * @return string|bool
+     * @param  string $value
+     * @param  int $minLength
+     * @param  int $maxLength
+     * @return bool
      */
-    public function checkLength(string $name, string $value, int $length): string|bool
+    public function checkLength(string $value, int $minLength, int $maxLength): bool
     {
-        if (strlen($value) < $length) {
-            return "$name must me be longer than $length characters";
-        }
-
-        return true;
+        return strlen($value) >= $minLength && strlen($value) <= $maxLength;
     }
 
 
@@ -27,16 +24,16 @@ class FormValidator
      * @param array $dataPost
      * @return string|bool
      */
-    public function validatePost(array $dataPost): string|bool
+    public function validatePostData(array $dataPost): bool
     {
         foreach ($dataPost as $data) {
 
             if (!isset($_POST[$data])) {
-                return "Please fill all inputs";
+                return false;
             }
 
             if (empty($_POST[$data])) {
-                return "Please fill all inputs";
+                return false;
             }
         }
 

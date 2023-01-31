@@ -1,9 +1,11 @@
 <?php
+
 $title = "Create a Project";
-require_once('./inc/header.php');
+require_once './inc/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject'])) {
-    $createProject = $project->insertProject();
+    // $createProject = $project->insertProject();
+    $projectController->createProject();
 }
 ?>
 <div class="container my-3">
@@ -43,4 +45,4 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['createProject'])) {
         </div>
     </div>
 </div>
-<?php require_once('./inc/footer.php'); ?>
+<?php require_once './inc/footer.php'; ?>

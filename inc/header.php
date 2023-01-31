@@ -1,8 +1,10 @@
 <?php
-require_once('./core/connection/Session.php');
+require_once './core/connection/Session.php';
 Session::init();
-require_once('./core/classes/Project.class.php');
+require_once './core/classes/Project.class.php';
+require_once "./core/controller/ProjectController.php";
 $project = new Project();
+$projectController = new ProjectController();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +15,7 @@ $project = new Project();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <title><?= isset($title) ? $title : "Planner App" ?></title>
+    <title><?= isset($title) ? $title : "Projects Manager" ?></title>
 </head>
 
 <body>
