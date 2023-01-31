@@ -17,7 +17,6 @@ $allProjects = $projectController->getAllProjects();
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Remains Days</th>
                             <th scope="col">Start</th>
                             <th scope="col">Deadline</th>
                             <th scope="col">Status</th>
@@ -34,7 +33,6 @@ $allProjects = $projectController->getAllProjects();
                           
                                 <th scope="row"><?= $project->id_project ?></th>
                                 <td><?= $project->name ?></td>
-                                <td><?= $project->remains_days ?></td>
                                 <td><?= $project->created_at ?></td>
                                 <td><?= $project->deadline ?></td>
                                 <td><?= $project->is_done ? "Done" : "Not done yet"; ?></td>

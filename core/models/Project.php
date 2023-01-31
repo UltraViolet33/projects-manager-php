@@ -5,13 +5,14 @@ require_once "./core/connection/Database.php";
 class Project
 {
     private ?Database $con = null;
+    
 
     public function __construct()
     {
         $this->con = new Database();
     }
 
-        
+
     /**
      * insertProject
      *
@@ -36,11 +37,11 @@ class Project
     {
         $query = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects
         WHERE is_done=0 ORDER BY remains_days ASC";
-        
+
         return $this->con->read($query);
     }
 
-    
+
     /**
      * selectAllProjects
      *
@@ -48,7 +49,7 @@ class Project
      */
     public function selectAllProjects(): array
     {
-        $query = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects ORDER BY remains_days ASC";
+        $query = "SELECT * FROM projects ORDER BY created_at DESC";
         return $this->con->read($query);
     }
 
