@@ -48,12 +48,12 @@ class FormValidator
      * @param string $date
      * @return string|bool
      */
-    public function checkDate($name, $date): string|bool
+    public function checkDateFormat(string $date): bool
     {
         $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
 
         if (!preg_match($date_regex, $date)) {
-            return $result = "The $name input must be a date with the format dd-mm-yyyy";
+            return false;
         }
 
         return true;
