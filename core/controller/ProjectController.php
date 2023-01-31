@@ -1,19 +1,12 @@
 <?php
 
-require_once './core/helpers/FormValidator.php';
-require_once "./core/connection/Session.php";
+require_once "./core/helpers/FormValidator.php";
+require_once "./core/helpers/Session.php";
+require_once "./core/"
 
 
 class ProjectController
 {
-
-    private $validator;
-
-    public function __construct()
-    {
-        $this->validator = new FormValidator();
-    }
-
 
     public function createProject(): bool
     {
@@ -26,12 +19,17 @@ class ProjectController
         // insert with Project class
     }
 
-
+    
+    /**
+     * validateDataForm
+     *
+     * @return bool
+     */
     private function validateDataForm(): bool
     {
         $dataForm = ["name", "description", "created_at", "deadline"];
 
-        if (!$this->validator->validatePostData($dataForm)) {
+        if (!FormValidator::validatePostData($dataForm)) {
             Session::set("error", "Please filsl all inputs");
             return false;
         }
@@ -65,7 +63,7 @@ class ProjectController
         $data = ["name", "description"];
 
         foreach ($data as $value) {
-            if (!$this->validator->checkLength($_POST[$value], 1, 50)) {
+            if (!FormValidator::checkLength($_POST[$value], 50)) {
                 return false;
             }
         }
@@ -84,7 +82,7 @@ class ProjectController
         $data = ["created_at", "deadline"];
 
         foreach ($data as $date) {
-            if (!$this->validator->checkDateFormat($_POST[$date])) {
+            if (!FormValidator::checkDateFormat($_POST[$date])) {
                 return false;
             }
         }

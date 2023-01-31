@@ -2,30 +2,27 @@
 
 class FormValidator
 {
-
     
     /**
      * checkLength
      *
      * @param  string $value
-     * @param  int $minLength
      * @param  int $maxLength
      * @return bool
      */
-    public function checkLength( $value,  $minLength,  $maxLength): bool
+    public static function checkLength(string $value, int $maxLength): bool
     {
-        return strlen($value) >= $minLength && strlen($value) <= $maxLength;
+        return strlen($value) >= 1 && strlen($value) <= $maxLength;
     }
 
 
-    
     /**
      * validatePostData
      *
      * @param  array $dataPost
      * @return bool
      */
-    public function validatePostData(array $dataPost): bool
+    public static function validatePostData(array $dataPost): bool
     {
         foreach ($dataPost as $data) {
 
@@ -43,13 +40,13 @@ class FormValidator
 
 
     /**
-     * check the date form
+     * checkDateFormat
      *
      * @param string $name
      * @param string $date
-     * @return string|bool
+     * @return bool
      */
-    public function checkDateFormat(string $date): bool
+    public static function checkDateFormat(string $date): bool
     {
         $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
 
