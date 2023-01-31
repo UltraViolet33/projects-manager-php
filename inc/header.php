@@ -1,9 +1,7 @@
 <?php
 require_once './core/helpers/Session.php';
 Session::init();
-require_once './core/classes/Project.class.php';
 require_once "./core/controller/ProjectController.php";
-$project = new Project();
 $projectController = new ProjectController();
 ?>
 <!DOCTYPE html>

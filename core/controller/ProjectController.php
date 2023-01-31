@@ -2,17 +2,25 @@
 
 require_once "./core/helpers/FormValidator.php";
 require_once "./core/helpers/Session.php";
-require_once "./core/"
+require_once "./core/models/Project.php";
 
 
 class ProjectController
 {
+    private Project $projectModel;
+
+    public function __construct()
+    {
+        $this->projectModel = new Project();
+    }
 
     public function createProject(): bool
     {
         if (!$this->validateDataForm()) {
             return false;
         }
+
+        $this->projectModel->insertProject();
 
         return true;
 

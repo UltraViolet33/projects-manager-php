@@ -1,73 +1,25 @@
 <?php
 
-require_once './core/connection/Database.php';
-require_once './core/helpers/FormValidator.php';
+require_once "./core/connection/Database.php";
 
 
 class Project
 {
     private $con = null;
-    private $validator = null;
-
 
     public function __construct()
     {
         $this->con = Database::getInstance();
-        $this->validator = new FormValidator();
     }
 
 
-    /**
-     * Check the form and insert in the bdd
-     *
-     * @return string
-     */
-    public function insertProject(): string
+    
+    public function insertProject(array $data): bool
     {
-        $result = "";
-        $dataPost = ["name", "description", "deadline"];
+        $query = "INSERT INTO projects(name, description, created_at, deadline) 
+                            VALUES(:name, :description, :created_at, :deadline)";
 
-        // Check inputs
-        $checkInputs = $this->validator->validatePost($dataPost);
-        if (is_string($checkInputs)) return $checkInputs;
-
-        // Check length
-        $checkName = $this->validator->checkLength("name", $_POST['name'], 1);
-        if (is_string($checkName))  return $checkName;
-
-        $checkDescription = $this->validator->checkLength("Description", $_POST['description'], 1);
-        if (is_string($checkDescription)) return $checkDescription;
-
-        $checkDeadline = $this->validator->checkDate("Deadline", $_POST['deadline']);
-        if (is_string($checkDeadline)) return $checkDeadline;
-
-        // Check if the dealine date is past
-        $currentDate = strtotime(date('Y-m-d'));
-        $deadline = strtotime($_POST['deadline']);
-
-        if ($deadline < $currentDate)  return $result = "The deadline must not be in the past";
-
-        $deadline = date("Y-m-d", $deadline);
-        $created_at = date("Y-m-d", $currentDate);
-
-        // Check the beginning date
-        if (strlen($_POST['created']) > 0) {
-            $checkCreatedAt = $this->validator->checkdate("Date begining", $_POST['created']);
-            if (is_string($checkCreatedAt)) return $checkCreatedAt;
-            $created_at = date("Y-m-d", strtotime($_POST['deadline']));
-        }
-
-        // Insert in the BDD
-        $values = array(
-            "name" => $_POST['name'],
-            "description" => $_POST['description'],
-            "deadline" => $deadline,
-            "created_at" => $created_at,
-        );
-
-        $sql = "INSERT INTO projects(name, description, created_at, deadline) VALUES(:name, :description, :created_at, :deadline)";
-
-        if ($this->con->write($sql, $values)) {
+        if ($this->con->write($query, $data)) {
             Session::set("message", "Your project have been created");
             header("Location: index.php");
         }
