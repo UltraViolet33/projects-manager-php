@@ -1,8 +1,8 @@
 <?php
 $title = "Projects in progress";
 require_once "./inc/header.php";
-// $allProjects = $project->getProjectsInProgress();
-$allProjects = [];
+
+$projectsInProgress = $projectController->getProjectsInProgress();
 ?>
 <div class="container my-3">
     <div class="row">
@@ -13,7 +13,7 @@ $allProjects = [];
     </div>
     <div class="row">
         <div class="col-12">
-            <?php if ($allProjects) : ?>
+            <?php if ($projectsInProgress) : ?>
                 <table class="table">
                     <thead>
                         <tr>
@@ -21,32 +21,26 @@ $allProjects = [];
                             <th scope="col">Name</th>
                             <th scope="col">Remains Days</th>
                             <th scope="col">Start</th>
-                            <th scope="col">Dealine</th>
+                            <th scope="col">Deadline</th>
                             <th scope="col">Status</th>
                             <th scope="col">Détails</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($allProjects as $project) : ?>
-                            <?php $deadline = date('d/m/y', strtotime($project->deadline));
-                            $date = date('d/m/y', strtotime($project->created_at));
-                            $status = $project->is_done ? "Done" : "Not done yet";
-                            ?>
-                            <?php if ($project->remains_days <= 7 && $project->remains_days >= 1) : ?>
-                                <tr class="bg-warning">
-                                <?php elseif ($project->remains_days <= 0) : ?>
+                        <?php foreach ($projectsInProgress as $project) : ?>
+                            <?php if ($project->remains_days <= 0) : ?>
                                 <tr class="bg-danger">
-                                <?php elseif ($project->is_done) : ?>
-                                <tr class="bg-success">
-                                <?php else : ?>
+                            <?php elseif ($project->remains_days <= 7) : ?>
+                                <tr class="bg-warning">
+                            <?php else : ?>
                                 <tr>
-                                <?php endif; ?>
+                            <?php endif; ?>
                                 <th scope="row"><?= $project->id_project ?></th>
                                 <td><?= $project->name ?></td>
                                 <td><?= $project->remains_days ?></td>
-                                <td><?= $date ?></td>
-                                <td><?= $deadline ?></td>
-                                <td><?= $status ?></td>
+                                <td><?= $project->created_at ?></td>
+                                <td><?= $project->deadline ?></td>
+                                <td><?= $project->is_done ? "Done" : "Not done yet"; ?></td>
                                 <td><a href="./details.php?id=<?= $project->id_project ?>" class="btn btn-primary">Détails</a></td>
                                 </tr>
                             <?php endforeach; ?>

@@ -11,14 +11,33 @@ class Project
         $this->con = Database::getInstance();
     }
 
-
-    
+        
+    /**
+     * insertProject
+     *
+     * @param  array $data
+     * @return bool
+     */
     public function insertProject(array $data): bool
     {
         $query = "INSERT INTO projects(name, description, created_at, deadline) 
         VALUES(:name, :description, :created_at, :deadline)";
 
         return $this->con->write($query, $data);
+    }
+
+
+    /**
+     * selectProjectsInProgress
+     *
+     * @return array
+     */
+    public function selectProjectsInProgress(): array
+    {
+        $query = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects
+        WHERE is_done=0 ORDER BY remains_days ASC";
+        
+        return $this->con->read($query);
     }
 
 
@@ -35,12 +54,6 @@ class Project
     public function getAllProjects()
     {
         $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects ORDER BY remains_days ASC";
-        return $this->con->read($sql);
-    }
-
-    public function getProjectsInProgress()
-    {
-        $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects WHERE is_done=0 ORDER BY remains_days ASC";
         return $this->con->read($sql);
     }
 

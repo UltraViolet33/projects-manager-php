@@ -15,6 +15,23 @@ class ProjectController
         $this->projectModel = new Project();
     }
 
+    
+    /**
+     * projectsInProgress
+     *
+     * @return array
+     */
+    public function getProjectsInProgress(): array
+    {
+        return $this->projectModel->selectProjectsInProgress();
+    }
+
+    
+    /**
+     * createProject
+     *
+     * @return bool
+     */
     public function createProject(): bool
     {
         if (!$this->validateDataForm()) {
@@ -124,7 +141,6 @@ class ProjectController
         $dataCleaned = array();
 
         foreach ($dataForm as $data) {
-            // array_push($dataCleaned, Format::cleanInput($_POST[$data]));
             $dataCleaned[$data] = Format::cleanInput($_POST[$data]);
         }
 
