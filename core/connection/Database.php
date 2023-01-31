@@ -58,12 +58,9 @@ class Database
   public function write($query, $data = array())
   {
     $statement = $this->PDOInstance->prepare($query);
-    $result = $statement->execute($data);
+    return $statement->execute($data);
 
-    if ($result) {
-      return true;
-    }
-    return false;
+
   }
 
   /**

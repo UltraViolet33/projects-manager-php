@@ -2,10 +2,9 @@
 
 require_once "./core/connection/Database.php";
 
-
 class Project
 {
-    private $con = null;
+    private ?Database $con = null;
 
     public function __construct()
     {
@@ -17,15 +16,9 @@ class Project
     public function insertProject(array $data): bool
     {
         $query = "INSERT INTO projects(name, description, created_at, deadline) 
-                            VALUES(:name, :description, :created_at, :deadline)";
+        VALUES(:name, :description, :created_at, :deadline)";
 
-        if ($this->con->write($query, $data)) {
-            Session::set("message", "Your project have been created");
-            header("Location: index.php");
-        }
-
-        $result = "An error occured, please try again or go away";
-        return $result;
+        return $this->con->write($query, $data);
     }
 
 

@@ -1,12 +1,14 @@
 <?php
 $title = "Projects in progress";
-require_once('./inc/header.php');
-$allProjects = $project->getProjectsInProgress();
+require_once "./inc/header.php";
+// $allProjects = $project->getProjectsInProgress();
+$allProjects = [];
 ?>
 <div class="container my-3">
     <div class="row">
         <div class="col-12">
             <h1 class="text-center">All Projects</h1>
+            <p><?= Session::get("Message") ?></p>
         </div>
     </div>
     <div class="row">
@@ -51,9 +53,9 @@ $allProjects = $project->getProjectsInProgress();
                     </tbody>
                 </table>
             <?php else : ?>
-                <p class="text-center">You have not any projects</p>
+                <p class="text-center">No project in progress</p>
             <?php endif; ?>
         </div>
     </div>
 </div>
-<?php require_once('./inc/footer.php'); ?>
+<?php require_once "./inc/footer.php"; ?>

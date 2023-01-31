@@ -2,6 +2,7 @@
 
 require_once "./core/helpers/FormValidator.php";
 require_once "./core/helpers/Session.php";
+require_once "./core/helpers/Format.php";
 require_once "./core/models/Project.php";
 
 
@@ -20,14 +21,18 @@ class ProjectController
             return false;
         }
 
-        $this->projectModel->insertProject();
+        $dataProject = $this->cleanData();
 
-        return true;
+        if ($this->projectModel->insertProject($dataProject)) {
+            Session::set("message", "Project created !");
+            header("Location: index.php");
+            return true;
+        }
 
-        // insert with Project class
+        return false;
     }
 
-    
+
     /**
      * validateDataForm
      *
@@ -110,5 +115,19 @@ class ProjectController
         $deadline = strtotime($_POST['deadline']);
 
         return $deadline > $currentDate;
+    }
+
+    private function cleanData(): array
+    {
+        $dataForm = ["name", "description", "created_at", "deadline"];
+
+        $dataCleaned = array();
+
+        foreach ($dataForm as $data) {
+            // array_push($dataCleaned, Format::cleanInput($_POST[$data]));
+            $dataCleaned[$data] = Format::cleanInput($_POST[$data]);
+        }
+
+        return $dataCleaned;
     }
 }
