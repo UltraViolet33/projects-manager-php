@@ -16,37 +16,26 @@ class ProjectController
     }
 
 
-    /**
-     * projectsInProgress
-     *
-     * @return array
-     */
     public function getProjectsInProgress(): array
     {
-        return $this->projectModel->selectProjectsInProgress();
+        $projects = $this->projectModel->selectProjectsInProgress();
+        foreach ($projects as $project) {
+            $project = $this->cleanData($project);
+        }
+        return $projects;
     }
 
 
-    /**
-     * getAllProjects
-     *
-     * @return array
-     */
     public function getAllProjects(): array
     {
-        return $this->projectModel->selectAllProjects();
+        $projects =  $this->projectModel->selectAllProjects();
+
+        return  $this->cleanData($projects);
     }
 
 
-
-    /**
-     * displayDetailsProject
-     *
-     * @return array
-     */
     public function displayDetailsProject(): array
     {
-
         if (!$this->isGetIdDefined()) {
             header("Location: allProjects.php");
             die;
@@ -63,12 +52,6 @@ class ProjectController
     }
 
 
-    /**
-     * getSingleProject
-     *
-     * @param  int $id
-     * @return array
-     */
     private function getSingleProject(int $id): array
     {
         $id = (int) $id;
@@ -76,11 +59,6 @@ class ProjectController
     }
 
 
-    /**
-     * deleteProject
-     *
-     * @return void
-     */
     public function deleteProject(): void
     {
         if (!$this->isGetIdDefined()) {
@@ -109,29 +87,13 @@ class ProjectController
     }
 
 
-    /**
-     * isGetIdDefined
-     *
-     * @return bool
-     */
-    private function isGetIdDefined(): bool
-    {
-        return isset($_GET["id"]) && is_numeric($_GET["id"]);
-    }
-
-
-    /**
-     * createProject
-     *
-     * @return bool
-     */
     public function createProject(): bool
     {
         if (!$this->validateFormCreateProject()) {
             return false;
         }
 
-        $dataProject = $this->cleanData();
+        $dataProject = $this->prepareCreateProjectData();
 
         if ($this->projectModel->insertProject($dataProject)) {
             Session::set("message", "Project created !");
@@ -141,6 +103,7 @@ class ProjectController
 
         return false;
     }
+
 
     public function editProject(int $id): bool
     {
@@ -152,7 +115,6 @@ class ProjectController
 
         $dataEditProject["id_project"] = $id;
 
-
         if ($this->projectModel->updateProject($dataEditProject)) {
             Session::set("message", "Project updated !");
             header("Location: index.php");
@@ -162,7 +124,14 @@ class ProjectController
         return false;
     }
 
-    private function prepareEditData(): array
+
+    private function isGetIdDefined(): bool
+    {
+        return isset($_GET["id"]) && is_numeric($_GET["id"]);
+    }
+
+
+    private function prepareCreateProjectData(): array
     {
         $dataForm = ["name", "description", "created_at", "deadline"];
 
@@ -172,17 +141,53 @@ class ProjectController
             $preparedArray[$data] = $_POST[$data];
         }
 
+
+        return $preparedArray;
+    }
+
+    private function prepareEditData(): array
+    {
+        $preparedArray = $this->prepareCreateProjectData();
+
         $preparedArray["is_done"] = $_POST["is_done"] ? 1 : 0;
 
         return $preparedArray;
     }
 
+    private function validateFormEditProject(): bool
+    {
+        if (!$this->validateDataForm()) {
+            return false;
+        }
 
-    /**
-     * validateDataForm
-     *
-     * @return bool
-     */
+        if (!isset($_POST["id_done"])) {
+            if (!$this->checkIfDeadlineDateIsPast()) {
+                Session::set("error", "Deadline must be in the past");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+    private function validateFormCreateProject(): bool
+    {
+        if (!$this->validateDataForm()) {
+            return false;
+        }
+
+        if (!$this->checkIfDeadlineDateIsPast()) {
+            Session::set("error", "Deadline must be in the past");
+            return false;
+        }
+
+        return true;
+    }
+
+
+
     private function validateDataForm(): bool
     {
         $dataForm = ["name", "description", "created_at", "deadline"];
@@ -205,42 +210,8 @@ class ProjectController
         return true;
     }
 
-    private function validateFormEditProject(): bool
-    {
-        if (!$this->validateDataForm()) {
-            return false;
-        }
-
-        if (!isset($_POST["id_done"])) {
-            if (!$this->checkIfDeadlineDateIsPast()) {
-                Session::set("error", "Deadline must be in the past");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function validateFormCreateProject(): bool
-    {
-        if (!$this->validateDataForm()) {
-            return false;
-        }
-
-        if (!$this->checkIfDeadlineDateIsPast()) {
-            Session::set("error", "Deadline must be in the past");
-            return false;
-        }
-
-        return true;
-    }
 
 
-    /**
-     * validateLengthData
-     *
-     * @return bool
-     */
     private function validateLengthData(): bool
     {
         $data = ["name", "description"];
@@ -255,11 +226,6 @@ class ProjectController
     }
 
 
-    /**
-     * checkDatesFormat
-     *
-     * @return bool
-     */
     private function checkDatesFormat(): bool
     {
         $data = ["created_at", "deadline"];
@@ -274,11 +240,6 @@ class ProjectController
     }
 
 
-    /**
-     * checkIfDeadlineDateIsPast
-     *
-     * @return bool
-     */
     private function checkIfDeadlineDateIsPast(): bool
     {
         $currentDate = strtotime(date('Y-m-d'));
@@ -287,21 +248,21 @@ class ProjectController
         return $deadline > $currentDate;
     }
 
-    /**
-     * cleanData
-     *
-     * @return array
-     */
-    private function cleanData(): array
+
+    private function cleanData($data): array
     {
-        $dataForm = ["name", "description", "created_at", "deadline"];
+        $final = [];
 
-        $dataCleaned = array();
+        foreach ($data as $value) {
+            $dataCleaned = array();
 
-        foreach ($dataForm as $data) {
-            $dataCleaned[$data] = Format::cleanInput($_POST[$data]);
+            foreach ($value as $key => $item) {
+                $dataCleaned[$key] = Format::cleanInput($item);
+            }
+
+            $final[] = $dataCleaned;
         }
 
-        return $dataCleaned;
+        return $final;
     }
 }
