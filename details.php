@@ -19,7 +19,7 @@ $singleProject = $projectController->displayDetailsProject();
             <p>Date begining : <?= $singleProject["created_at"] ?> </p>
             <p>Deadline : <?= $singleProject["deadline"] ?> </p>
             <a href="./edit.php?id=<?= $singleProject["id_project"] ?>" class="btn btn-primary">Edit</a>
-            <a href="./delete.php?id=<?= $singleProject["id_project"] ?>" class="btn btn-danger">Delete</a>
+            <a onclick="return confirm('Are you sure you want to delete this project ?')" href="./delete.php?id=<?= $singleProject["id_project"] ?>" class="btn btn-danger">Delete</a>
         </div>
     </div>
 </div>
