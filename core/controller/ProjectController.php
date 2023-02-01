@@ -10,6 +10,7 @@ class ProjectController
 {
     private Project $projectModel;
 
+
     public function __construct()
     {
         $this->projectModel = new Project();
@@ -19,17 +20,13 @@ class ProjectController
     public function getProjectsInProgress(): array
     {
         $projects = $this->projectModel->selectProjectsInProgress();
-        foreach ($projects as $project) {
-            $project = $this->cleanData($project);
-        }
-        return $projects;
+        return $this->cleanData($projects);
     }
 
 
     public function getAllProjects(): array
     {
         $projects =  $this->projectModel->selectAllProjects();
-
         return  $this->cleanData($projects);
     }
 
@@ -148,11 +145,11 @@ class ProjectController
     private function prepareEditData(): array
     {
         $preparedArray = $this->prepareCreateProjectData();
-
         $preparedArray["is_done"] = $_POST["is_done"] ? 1 : 0;
 
         return $preparedArray;
     }
+
 
     private function validateFormEditProject(): bool
     {
@@ -169,7 +166,6 @@ class ProjectController
 
         return true;
     }
-
 
 
     private function validateFormCreateProject(): bool
