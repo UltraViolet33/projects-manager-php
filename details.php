@@ -3,19 +3,8 @@ $title = "Details Projects";
 
 require_once "./inc/header.php";
 
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header("Location: allProjects.php");
-    die;
-}
-
-$id = (int) $_GET['id'];
-
-$singleProject = $project->getSingleProject($id);
-if (!$singleProject) {
-    header("Location: allProjects.php");
-    die;
-}
-
+$singleProject = $projectController->getSingleProject();
+var_dump($singleProject);
 ?>
 <div class="container my-3">
     <div class="row">

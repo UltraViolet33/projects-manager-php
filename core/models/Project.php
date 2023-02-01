@@ -52,6 +52,18 @@ class Project
         $query = "SELECT * FROM projects ORDER BY created_at DESC";
         return $this->con->read($query);
     }
+    
+    /**
+     * selectSingleProject
+     *
+     * @param  int $id
+     * @return array
+     */
+    public function selectSingleProject(int $id): array
+    {
+        $query = "SELECT * FROM projects WHERE id_project = :id_project";
+        return $this->con->readSingleRow($query, ['id_project' => $id]);
+    }
 
 
 
@@ -117,11 +129,7 @@ class Project
         return $result;
     }
 
-    public function getSingleProject(int $id)
-    {
-        $sql = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects WHERE id_project = :id_project";
-        return $this->con->read($sql, ['id_project' => $id], true);
-    }
+
 
     public function deleteProject($id)
     {

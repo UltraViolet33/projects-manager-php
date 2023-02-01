@@ -26,7 +26,7 @@ class ProjectController
         return $this->projectModel->selectProjectsInProgress();
     }
 
-    
+
     /**
      * getAllProjects
      *
@@ -37,12 +37,28 @@ class ProjectController
         return $this->projectModel->selectAllProjects();
     }
 
+
+    /**
+     * getSingleProject
+     *
+     * @return array
+     */
     public function getSingleProject(): array
     {
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             header("Location: allProjects.php");
             die;
         }
+
+        $id = (int) $_GET["id"];
+        $singleProject = $this->projectModel->selectSingleProject($id);
+
+        if (!$singleProject) {
+            header("Location: allProjects.php");
+            die;
+        }
+
+        return $singleProject;
     }
 
 

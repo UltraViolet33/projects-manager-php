@@ -12,6 +12,23 @@ class Database
     $this->PDOInstance  = new PDO($string, DB_USER, DB_PASS);
   }
 
+  
+  /**
+   * readSingleRow
+   *
+   * @param  string $query
+   * @param  array $data
+   * @return array
+   */
+  public function readSingleRow(string $query, array $data): array
+  {
+    $statement = $this->PDOInstance->prepare($query);
+    $statement->execute($data);
+    $result =  $statement->fetch(PDO::FETCH_ASSOC);
+
+    return $result ? $result : [];
+  }
+
 
   /**
    * read
