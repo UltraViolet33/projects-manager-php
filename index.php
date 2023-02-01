@@ -7,7 +7,8 @@ $projectsInProgress = $projectController->getProjectsInProgress();
     <div class="row">
         <div class="col-12">
             <h1 class="text-center">Projects in progress</h1>
-            <p><?= Session::get("message") ?></p>
+            <p><?php echo Session::get("message");
+                Session::unsetKey("message");?></p>
         </div>
     </div>
     <div class="row">
