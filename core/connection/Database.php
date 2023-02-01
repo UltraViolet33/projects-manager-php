@@ -4,6 +4,7 @@ require_once "./core/connection/config.php";
 
 class Database
 {
+
   private $PDOInstance = null;
 
   public function __construct()
@@ -12,7 +13,7 @@ class Database
     $this->PDOInstance  = new PDO($string, DB_USER, DB_PASS);
   }
 
-  
+
   /**
    * readSingleRow
    *
@@ -30,29 +31,23 @@ class Database
   }
 
 
+  
   /**
-   * read
-   * read on the BDD"
+   * readMultipleRows
+   *
+   * @param  string $query
+   * @param  array $data
    * @return array
    */
-  public function read($query, $data = array(), $single = false)
+  public function readMultipleRows(string $query, array $data = array()): array
   {
     $statement = $this->PDOInstance->prepare($query);
-    $result = $statement->execute($data);
+    $statement->execute($data);
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result) {
-      if ($single) {
-        $data = $statement->fetch(PDO::FETCH_OBJ);
-        return $data;
-      } else {
-        $data = $statement->fetchAll(PDO::FETCH_OBJ);
-      }
-      if (is_array($data) && count($data) > 0) {
-        return $data;
-      }
-    }
-    return false;
+    return $result ? $result : [];
   }
+  
 
   /**
    * write
