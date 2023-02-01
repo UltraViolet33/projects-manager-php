@@ -4,7 +4,7 @@ require_once "./core/connection/Database.php";
 
 class Project
 {
-    private ?Database $con = null;
+    private Database $con;
 
 
     public function __construct()
@@ -66,18 +66,21 @@ class Project
         return $this->con->readSingleRow($query, ['id_project' => $id]);
     }
 
-
-
-    public function updateProject($data)
+    
+    /**
+     * updateProject
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function updateProject(array $data): bool
     {
-
         $query = "UPDATE projects SET name = :name, description = :description,
-         created_at=:created_at, deadline=:deadline, is_done=:is_done
-          WHERE id_project=:id_project";
+        created_at=:created_at, deadline=:deadline, is_done=:is_done
+        WHERE id_project=:id_project";
 
         return $this->con->write($query, $data);
     }
-
 
 
     /**
