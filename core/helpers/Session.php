@@ -1,17 +1,37 @@
 <?php
 class Session
 {
-    public static function init()
+
+    /**
+     * init
+     *
+     * @return void
+     */
+    public static function init(): void
     {
         session_start();
     }
 
-    public static function set($key, $value)
+
+    /**
+     * set
+     *
+     * @param  string $key
+     * @param  string $value
+     * @return void
+     */
+    public static function set(string $key, string $value): void
     {
         $_SESSION[$key] = $value;
     }
 
-    public static function get($key)
+    /**
+     * get
+     *
+     * @param  string $key
+     * @return string|bool
+     */
+    public static function get(string $key): string|bool
     {
         if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
@@ -19,29 +39,19 @@ class Session
         return false;
     }
 
-    public static function unsetKey($key)
+
+    /**
+     * unsetKey
+     *
+     * @param  string $key
+     * @return bool
+     */
+    public static function unsetKey(string $key): bool
     {
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
             return true;
         }
         return false;
-    }
-
-    public static function checkSession()
-    {
-        self::init();
-        if (!self::get('adminlogin')) self::destroy();
-    }
-
-    public static function checkAdminLogin()
-    {
-        if (self::get('adminLogin')) echo '<script>location.href="index.php"</script>';
-    }
-
-    public static function destroy()
-    {
-        session_destroy();
-        echo "<script>window.location='login.php';</script>";
     }
 }

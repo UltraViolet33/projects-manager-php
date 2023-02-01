@@ -38,7 +38,7 @@ class Project
         $query = "SELECT *, DATEDIFF(deadline, NOW()) AS remains_days FROM projects
         WHERE is_done=0 ORDER BY remains_days ASC";
 
-        return $this->con->read($query);
+        return $this->con->readMultipleRows($query);
     }
 
 
@@ -50,7 +50,7 @@ class Project
     public function selectAllProjects(): array
     {
         $query = "SELECT * FROM projects ORDER BY created_at DESC";
-        return $this->con->read($query);
+        return $this->con->readMultipleRows($query);
     }
 
 

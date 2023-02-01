@@ -26,12 +26,12 @@ $allProjects = $projectController->getAllProjects();
                     <tbody>
                         <?php foreach ($allProjects as $project) : ?>
                             <tr>
-                                <th scope="row"><?= $project->id_project ?></th>
-                                <td><?= $project->name ?></td>
-                                <td><?= $project->created_at ?></td>
-                                <td><?= $project->deadline ?></td>
-                                <td><?= $project->is_done ? "Done" : "Not done yet"; ?></td>
-                                <td><a href="./details.php?id=<?= $project->id_project ?>" class="btn btn-primary">Détails</a></td>
+                            <th scope="row"><?= $project["id_project"] ?></th>
+                                <td><?= $project["name"] ?></td>
+                                <td><?= $project["created_at"] ?></td>
+                                <td><?= $project["deadline"] ?></td>
+                                <td><?= $project["is_done"] ? "Done" : "Not done yet"; ?></td>
+                                <td><a href="./details.php?id=<?= $project["id_project"] ?>" class="btn btn-primary">Détails</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

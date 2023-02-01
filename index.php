@@ -27,20 +27,20 @@ $projectsInProgress = $projectController->getProjectsInProgress();
                     </thead>
                     <tbody>
                         <?php foreach ($projectsInProgress as $project) : ?>
-                            <?php if ($project->remains_days <= 0) : ?>
+                            <?php if ($project["remains_days"] <= 0) : ?>
                                 <tr class="bg-danger">
-                                <?php elseif ($project->remains_days <= 7) : ?>
+                                <?php elseif ($project["remains_days"] <= 7) : ?>
                                 <tr class="bg-warning">
                                 <?php else : ?>
                                 <tr>
                                 <?php endif; ?>
-                                <th scope="row"><?= $project->id_project ?></th>
-                                <td><?= $project->name ?></td>
-                                <td><?= $project->remains_days ?></td>
-                                <td><?= $project->created_at ?></td>
-                                <td><?= $project->deadline ?></td>
-                                <td><?= $project->is_done ? "Done" : "Not done yet"; ?></td>
-                                <td><a href="./details.php?id=<?= $project->id_project ?>" class="btn btn-primary">Détails</a></td>
+                                <th scope="row"><?= $project["id_project"] ?></th>
+                                <td><?= $project["name"] ?></td>
+                                <td><?= $project["remains_days"] ?></td>
+                                <td><?= $project["created_at"] ?></td>
+                                <td><?= $project["deadline"] ?></td>
+                                <td><?= $project["is_done"] ? "Done" : "Not done yet"; ?></td>
+                                <td><a href="./details.php?id=<?= $project["id_project"] ?>" class="btn btn-primary">Détails</a></td>
                                 </tr>
                             <?php endforeach; ?>
                     </tbody>

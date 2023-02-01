@@ -47,7 +47,7 @@ class Database
 
     return $result ? $result : [];
   }
-  
+
 
   /**
    * write
@@ -59,6 +59,7 @@ class Database
     $statement = $this->PDOInstance->prepare($query);
     return $statement->execute($data);
   }
+  
 
   /**
    * getLastInsertId
