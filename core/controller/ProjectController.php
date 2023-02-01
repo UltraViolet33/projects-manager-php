@@ -38,8 +38,9 @@ class ProjectController
     }
 
 
+
     /**
-     * getSingleProject
+     * displayDetailsProject
      *
      * @return array
      */
@@ -60,13 +61,26 @@ class ProjectController
 
         return $singleProject;
     }
+    
 
+    /**
+     * getSingleProject
+     *
+     * @param  int $id
+     * @return array
+     */
     private function getSingleProject(int $id): array
     {
         $id = (int) $id;
         return $this->projectModel->selectSingleProject($id);
     }
 
+    
+    /**
+     * deleteProject
+     *
+     * @return void
+     */
     public function deleteProject(): void
     {
         if (!$this->isGetIdDefined()) {
@@ -74,9 +88,32 @@ class ProjectController
             die;
         }
 
-        echo "ok";
-    }
+        $id = (int) $_GET["id"];
 
+        $singleProject = $this->getSingleProject($id);
+
+        if (!$singleProject) {
+            header("Location: allProjects.php");
+            die;
+        }
+
+        if ($this->projectModel->deleteProject($id)) {
+            Session::set("message", "Project deleted !");
+            header("Location: index.php");
+            die;
+        }
+
+        Session::set("message", "Error !");
+        header("Location: index.php");
+        die;
+    }
+    
+
+    /**
+     * isGetIdDefined
+     *
+     * @return bool
+     */
     private function isGetIdDefined(): bool
     {
         return isset($_GET["id"]) && is_numeric($_GET["id"]);
@@ -189,7 +226,12 @@ class ProjectController
 
         return $deadline > $currentDate;
     }
-
+    
+    /**
+     * cleanData
+     *
+     * @return array
+     */
     private function cleanData(): array
     {
         $dataForm = ["name", "description", "created_at", "deadline"];

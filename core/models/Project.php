@@ -5,7 +5,7 @@ require_once "./core/connection/Database.php";
 class Project
 {
     private ?Database $con = null;
-    
+
 
     public function __construct()
     {
@@ -53,6 +53,7 @@ class Project
         return $this->con->read($query);
     }
     
+
     /**
      * selectSingleProject
      *
@@ -130,10 +131,16 @@ class Project
     }
 
 
-
-    public function deleteProject($id)
+    
+    /**
+     * deleteProject
+     *
+     * @param  int $id
+     * @return bool
+     */
+    public function deleteProject(int $id): bool
     {
-        $sql = "DELETE FROM projects WHERE id_project = :id_project";
-        $result = $this->con->write($sql, ['id_project' => $id]);
+        $query = "DELETE FROM projects WHERE id_project = :id_project";
+        return $this->con->write($query, ['id_project' => $id]);
     }
 }
