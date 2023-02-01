@@ -3,7 +3,7 @@
 $title = "Details Projects";
 require_once "./inc/header.php";
 
-$singleProject = $projectController->getSingleProject();
+$singleProject = $projectController->displayDetailsProject();
 ?>
 <div class="container my-3">
     <div class="row">

@@ -43,20 +43,15 @@ class ProjectController
      *
      * @return array
      */
-    public function getSingleProject(): array
+    public function displayDetailsProject(): array
     {
-        // if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-        //     header("Location: allProjects.php");
-        //     die;
-        // }
 
         if (!$this->isGetIdDefined()) {
             header("Location: allProjects.php");
             die;
         }
 
-        $id = (int) $_GET["id"];
-        $singleProject = $this->projectModel->selectSingleProject($id);
+        $singleProject = $this->getSingleProject($_GET["id"]);
 
         if (!$singleProject) {
             header("Location: allProjects.php");
@@ -66,11 +61,21 @@ class ProjectController
         return $singleProject;
     }
 
-    public function deleteProject(): void
+    private function getSingleProject(int $id): array
     {
+        $id = (int) $id;
+        return $this->projectModel->selectSingleProject($id);
     }
 
-    
+    public function deleteProject(): void
+    {
+        if (!$this->isGetIdDefined()) {
+            header("Location: allProjects.php");
+            die;
+        }
+
+        echo "ok";
+    }
 
     private function isGetIdDefined(): bool
     {
