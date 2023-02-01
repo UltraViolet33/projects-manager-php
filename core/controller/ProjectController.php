@@ -61,7 +61,7 @@ class ProjectController
 
         return $singleProject;
     }
-    
+
 
     /**
      * getSingleProject
@@ -75,7 +75,7 @@ class ProjectController
         return $this->projectModel->selectSingleProject($id);
     }
 
-    
+
     /**
      * deleteProject
      *
@@ -107,7 +107,7 @@ class ProjectController
         header("Location: index.php");
         die;
     }
-    
+
 
     /**
      * isGetIdDefined
@@ -127,7 +127,7 @@ class ProjectController
      */
     public function createProject(): bool
     {
-        if (!$this->validateDataForm()) {
+        if (!$this->validateFormCreateProject()) {
             return false;
         }
 
@@ -140,6 +140,41 @@ class ProjectController
         }
 
         return false;
+    }
+
+    public function editProject(int $id): bool
+    {
+        if (!$this->validateFormEditProject()) {
+            return false;
+        }
+
+        $dataEditProject = $this->prepareEditData();
+
+        $dataEditProject["id_project"] = $id;
+
+
+        if ($this->projectModel->updateProject($dataEditProject)) {
+            Session::set("message", "Project updated !");
+            header("Location: index.php");
+            return true;
+        }
+
+        return false;
+    }
+
+    private function prepareEditData(): array
+    {
+        $dataForm = ["name", "description", "created_at", "deadline"];
+
+        $preparedArray = [];
+
+        foreach ($dataForm as $data) {
+            $preparedArray[$data] = $_POST[$data];
+        }
+
+        $preparedArray["is_done"] = $_POST["is_done"] ? 1 : 0;
+
+        return $preparedArray;
     }
 
 
@@ -164,6 +199,31 @@ class ProjectController
 
         if (!$this->checkDatesFormat()) {
             Session::set("error", "Date must be in format dd/mm/yyyy");
+            return false;
+        }
+
+        return true;
+    }
+
+    private function validateFormEditProject(): bool
+    {
+        if (!$this->validateDataForm()) {
+            return false;
+        }
+
+        if (!isset($_POST["id_done"])) {
+            if (!$this->checkIfDeadlineDateIsPast()) {
+                Session::set("error", "Deadline must be in the past");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function validateFormCreateProject(): bool
+    {
+        if (!$this->validateDataForm()) {
             return false;
         }
 
@@ -226,7 +286,7 @@ class ProjectController
 
         return $deadline > $currentDate;
     }
-    
+
     /**
      * cleanData
      *

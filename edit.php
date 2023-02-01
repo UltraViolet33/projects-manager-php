@@ -6,7 +6,9 @@ require_once "./inc/header.php";
 $singleProject = $projectController->displayDetailsProject();
 
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['editProject'])) {
-    // $updateProject = $project->updateProject($id);
+    //  $updateProject = $project->updateProject($id);
+    $projectController->editProject($singleProject["id_project"]);
+    // var_dump($_POST);
 }
 
 ?>
@@ -50,7 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['editProject'])) {
                 <input type="submit" name="editProject" value="Submit" class="btn btn-primary" />
             </form>
             <div class="bg-danger">
-
+                <?php
+                echo Session::get("error");
+                Session::unsetKey("error");
+                ?>
             </div>
         </div>
     </div>
