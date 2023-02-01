@@ -25,20 +25,15 @@ $allProjects = $projectController->getAllProjects();
                     </thead>
                     <tbody>
                         <?php foreach ($allProjects as $project) : ?>
-                            <?php
-                        
-                            $status = $project->is_done ? "Done" : "Not done yet";
-                            ?>
                             <tr>
-                          
                                 <th scope="row"><?= $project->id_project ?></th>
                                 <td><?= $project->name ?></td>
                                 <td><?= $project->created_at ?></td>
                                 <td><?= $project->deadline ?></td>
                                 <td><?= $project->is_done ? "Done" : "Not done yet"; ?></td>
                                 <td><a href="./details.php?id=<?= $project->id_project ?>" class="btn btn-primary">Détails</a></td>
-                                </tr>
-                            <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else : ?>
@@ -47,4 +42,4 @@ $allProjects = $projectController->getAllProjects();
         </div>
     </div>
 </div>
-<?php require_once('./inc/footer.php'); ?>
+<?php require_once "./inc/footer.php"; ?>

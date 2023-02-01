@@ -1,16 +1,11 @@
 <?php
-
 $title = "Edit a Project";
 require_once "./inc/header.php";
-
 $singleProject = $projectController->displayDetailsProject();
 
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['editProject'])) {
-    //  $updateProject = $project->updateProject($id);
     $projectController->editProject($singleProject["id_project"]);
-    // var_dump($_POST);
 }
-
 ?>
 <div class="container my-3">
     <div class="row">

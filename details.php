@@ -1,8 +1,6 @@
 <?php
-
 $title = "Details Projects";
 require_once "./inc/header.php";
-
 $singleProject = $projectController->displayDetailsProject();
 ?>
 <div class="container my-3">

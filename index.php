@@ -1,7 +1,6 @@
 <?php
 $title = "Projects in progress";
 require_once "./inc/header.php";
-
 $projectsInProgress = $projectController->getProjectsInProgress();
 ?>
 <div class="container my-3">
@@ -30,11 +29,11 @@ $projectsInProgress = $projectController->getProjectsInProgress();
                         <?php foreach ($projectsInProgress as $project) : ?>
                             <?php if ($project->remains_days <= 0) : ?>
                                 <tr class="bg-danger">
-                            <?php elseif ($project->remains_days <= 7) : ?>
+                                <?php elseif ($project->remains_days <= 7) : ?>
                                 <tr class="bg-warning">
-                            <?php else : ?>
+                                <?php else : ?>
                                 <tr>
-                            <?php endif; ?>
+                                <?php endif; ?>
                                 <th scope="row"><?= $project->id_project ?></th>
                                 <td><?= $project->name ?></td>
                                 <td><?= $project->remains_days ?></td>
